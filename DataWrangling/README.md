@@ -623,7 +623,8 @@ LIMIT 10;
 | information 	| 2  	|
 | viewpoint   	| 1  	|
 
-> Touristic attractions are not complete in Ankara. Although hotels are seem to be more complete this is beacuse those places are privately held, other attractions like artwork, museums and information are not complete enough. Turkish State shall contribute more in order to attract more tourists since many applications use this data.
+> Touristic attractions are not complete in Ankara. Although hotels are seem to be more complete this is beacuse those places are privately held, other attractions like artwork, museums and information are not complete enough. Turkish State shall contribute more in order to attract more tourists since many applications use this data. <br>
+> This improvement has <b>benefits</b> for the touristic attractions to be easy to find for tourists. Of course there would be some problems while improving the completeness of the data. Turkish state itself may not be capable of filling such information. This problem may be solved by crowdsourcing instruments. Tourists may check-in those places or create new places in a platform for the State.   
 
 
 
