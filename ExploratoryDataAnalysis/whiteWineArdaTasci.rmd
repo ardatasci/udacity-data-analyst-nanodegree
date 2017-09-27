@@ -57,11 +57,24 @@ whiteWine$quality.ordered <- factor(whiteWine$quality, ordered = TRUE)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Plotting histogam
-ggplot(data=whiteWine, aes(whiteWine$quality)) +
+p1 <- ggplot(data=whiteWine, aes(whiteWine$quality)) +
   geom_histogram(binwidth = 1) +
   xlab("Quality of wine") +
   ylab("Count") +
-  labs(title = "Quality Histogram")
+  labs(title = "Quality Distribution")
+
+p2 <- ggplot(aes(factor(quality), 
+            alcohol), 
+        data = whiteWine) +
+  geom_jitter( alpha = .3)  +
+  geom_boxplot( alpha = .5,color = 'blue')+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 8, 
+               size = 4)
+
+grid.arrange(p1,p2,ncol=2)
 ```
 
 
@@ -73,8 +86,17 @@ As I stated, highest count of observations have quality of 6. Most of the wines 
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-whiteWine$quality.level <- cut(whiteWine$quality, breaks = c(0,5,6,9), labels = c( "Bad", "Average", "Good"))
-table(whiteWine$quality.level)
+whiteWine$quality.level <- cut(whiteWine$quality, 
+                               breaks = c(0,5,6,9), 
+                               labels = c( "Bad", "Average", "Good"))
+# Plotting histogam
+ggplot(data=whiteWine, 
+       aes(whiteWine$quality.level)) +
+  geom_bar() +
+  xlab("Quality Level") +
+  ylab("Count") +
+  labs(title = "Quality Level Observations Counts")
+
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -110,29 +132,44 @@ grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)
 Let's look deeper into the variables. 
 
 
-
-
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-p1 <- ggplot(data=whiteWine, aes(x=fixed.acidity)) + geom_histogram(aes(fill=..count..), binwidth = 0.2) +
-  xlab("Fixed Acidity  (tartaric acid - g / dm^3)") +
-  ylab("Count") +
-  labs(title = "Fixed Acidity Histogram")
-grid.arrange(p1) 
+p1 <- ggplot(data=whiteWine, aes( x = 1, y = fixed.acidity ) ) + 
+               geom_jitter(alpha = 0.1 ) +
+               geom_boxplot(alpha = 0.2, color = 'red' ) +
+                ylab("Fixed Acidity  (tartaric acid - g / dm^3)") +
+                xlab("Fixed.Acidity") +
+                labs(title = "Fixed Acidity") +
+                ylim(1, 15)
+p2 <- ggplot(data=whiteWine, aes( x   = fixed.acidity  ) ) + 
+                   geom_histogram(bins=30 ) +
+                  xlab("Fixed Acidity  (tartaric acid - g / dm^3)") +
+                  ylab("Count") +
+                  labs(title = "Fixed Acidity Histogram")
+grid.arrange(p1, p2, ncol=2)
+
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 summary(whiteWine$fixed.acidity)
 ```
 
-As seen Fixed Acidity values are mostly fall between 6 and 7.3. 
+As seen Fixed Acidity values are mostly fall between 6 and 7.3. Observations with fixed.acidity values less than 5 and more than 10 can be accepted as outliers.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-p1 <- ggplot(data=whiteWine, aes(x=volatile.acidity)) + geom_histogram(aes(fill=..count..), binwidth = 0.1) +
-  xlab("Volatile Acidity (acetic acid - g / dm^3)") +
-  ylab("Count") +
-  labs(title = "Fixed Acidity Histogram")
-grid.arrange(p1)
+p1 <- ggplot(data=whiteWine, aes( x = 1, y = volatile.acidity ) ) + 
+               geom_jitter(alpha = 0.1 ) +
+               geom_boxplot(alpha = 0.2, color = 'red' ) +
+                ylab("Volatile Acidity  (tartaric acid - g / dm^3)") +
+                xlab("Volatile.Acidity") +
+                labs(title = "Volatile Acidity") +
+                ylim(-0.1, 0.9)
+p2 <- ggplot(data=whiteWine, aes( x   = volatile.acidity  ) ) + 
+                   geom_histogram(bins=30 ) +
+                  xlab("Volatile Acidity  (tartaric acid - g / dm^3)") +
+                  ylab("Count") +
+                  labs(title = "Volatile Acidity Histogram")
+grid.arrange(p1, p2, ncol=2)
 ```
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 summary(whiteWine$volatile.acidity)
@@ -144,11 +181,19 @@ Volatile acidity is positively skewed. There are outliers in observations. As st
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-p1 <- ggplot(data=whiteWine, aes(x=citric.acid)) + geom_histogram(aes(fill=..count..), binwidth = 0.01) +
-  xlab("Citric Acid (g / dm^3)") +
-  ylab("Count") +
-  labs(title = "Citric Acid Histogram")
-grid.arrange(p1)
+p1 <- ggplot(data=whiteWine, aes( x = 1, y = citric.acid ) ) + 
+               geom_jitter(alpha = 0.1 ) +
+               geom_boxplot(alpha = 0.2, color = 'red' ) +
+                ylab("Citric Acidity  (tartaric acid - g / dm^3)") +
+                xlab("Citric.Acid") +
+                labs(title = "Citric Acid")+
+                ylim(-0.1, 0.9)
+p2 <- ggplot(data=whiteWine, aes( x   = citric.acid  ) ) + 
+                   geom_histogram(bins=30 ) +
+                  xlab("Citric Acidity  (tartaric acid - g / dm^3)") +
+                  ylab("Count") +
+                  labs(title = "Citric Acid Histogram")
+grid.arrange(p1, p2, ncol=2)
 ```
 
 
@@ -161,13 +206,22 @@ Citric acid values of wines are mostly fall between 0.49 and 0.74. Values are lo
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-p1 <- ggplot(data=whiteWine, aes(x=residual.sugar)) +
-  geom_histogram() + 
-  scale_x_log10() +
-  xlab("Residual Sugar (g / dm^3)") +
-  ylab("Count") +
-  labs(title = "Residual Sugar Histogram (Log 10)")
-grid.arrange(p1)
+p1 <-  ggplot(data=whiteWine, aes( x = 1, y = residual.sugar ) ) + 
+               geom_jitter(alpha = 0.1 ) +
+               geom_boxplot(alpha = 0.2, color = 'red' ) +
+                ylab("Residual Sugar  (g / dm^3)") +
+                xlab("Residual Sugar") +
+                labs(title = "Residual Sugar")+
+                ylim(-10, 70)
+p2 <- ggplot(data=whiteWine, aes( x = residual.sugar ) ) + 
+               geom_histogram(bins = 30) +
+              scale_x_log10() +
+              xlab("Residual Sugar (g / dm^3)") +
+              ylab("Count") +
+              labs(title = "Residual Sugar Histogram (Log 10)")
+
+grid.arrange(p1, p2, ncol=2)
+
 ```
 
 
@@ -179,10 +233,21 @@ Residual sugar is highly skewed. There are extreme outliers as 65.8. So that in 
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-p1 <- ggplot(data=whiteWine, aes(x=pH)) +
-  geom_histogram(aes(fill=..count..), binwidth = 0.01) +
-  labs(title = "pH Histogram (Log 10)")
-grid.arrange(p1)
+p1 <-  ggplot(data=whiteWine, aes( x = 1, y = pH ) ) + 
+               geom_jitter(alpha = 0.1 ) +
+               geom_boxplot(alpha = 0.2, color = 'red' ) +
+                ylab("pH") +
+                xlab("pH") +
+                labs(title = "pH")
+p2 <- ggplot(data=whiteWine, aes( x = pH ) ) + 
+               geom_histogram(binwidth = 0.01) +
+              scale_x_log10() +
+              labs(title = "pH Histogram") +
+              ylab("pH") +
+              xlab("pH") 
+
+grid.arrange(p1, p2, ncol=2)
+
 ```
 
 
@@ -190,11 +255,27 @@ PH values of observations are seem to have a normal distirbution.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 p1 <- ggplot(data=whiteWine, aes(x=alcohol)) +
-  geom_histogram(aes(fill=..count..), binwidth = 0.2) +
+  geom_histogram( binwidth = 0.2) +
   xlab("Alcohol (% by volume)") +
   ylab("Count") +
   labs(title = "Alcohol Histogram (Log 10)")
 grid.arrange(p1)
+
+p1 <-  ggplot(data=whiteWine, aes( x = 1, y = alcohol ) ) + 
+               geom_jitter(alpha = 0.1 ) +
+               geom_boxplot(alpha = 0.2, color = 'red' ) +
+                ylab("Alcohol (% by volume)") +
+                xlab(" ") +
+                labs(title = "Alcohol")
+p2 <- ggplot(data=whiteWine, aes( x = alcohol ) ) + 
+               geom_histogram(binwidth = 0.01) +
+              scale_x_log10() +
+              labs(title = "Alcohol Histogram (Log 10)") +
+              ylab("Alcohol") +
+              xlab("Alcohol (% by volume)") 
+
+grid.arrange(p1, p2, ncol=2)
+
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -243,16 +324,20 @@ First of all, I have investigate the relation between quality variable and acidi
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #Create histograms for each additional variable after quality
 
-p1 <- ggplot(aes(x = quality.level, y = fixed.acidity), data = subset(whiteWine, volatile.acidity <= quantile(volatile.acidity, 0.90))) +
+p1 <- ggplot(aes(x = quality.level, y = fixed.acidity), 
+             data = subset(whiteWine, volatile.acidity <= quantile(volatile.acidity, 0.90))) +
   geom_boxplot(aes(group = quality.level, color = quality.level)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
-p2 <- ggplot(aes(x = quality.level, y = volatile.acidity), data = subset(whiteWine, volatile.acidity <= quantile(volatile.acidity, 0.90))) +
+p2 <- ggplot(aes(x = quality.level, y = volatile.acidity), 
+             data = subset(whiteWine, volatile.acidity <= quantile(volatile.acidity, 0.90))) +
   geom_boxplot(aes(group = quality.level, color = quality.level)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
-p3 <- ggplot(aes(x = quality.level, y = citric.acid), data = subset(whiteWine, volatile.acidity <= quantile(volatile.acidity, 0.90))) +
+p3 <- ggplot(aes(x = quality.level, y = citric.acid), 
+             data = subset(whiteWine, volatile.acidity <= quantile(volatile.acidity, 0.90))) +
   geom_boxplot(aes(group = quality.level, color = quality.level)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
-p4 <- ggplot(aes(x = quality.level, y = pH), data = subset(whiteWine, volatile.acidity <= quantile(volatile.acidity, 0.90))) +
+p4 <- ggplot(aes(x = quality.level, y = pH), 
+             data = subset(whiteWine, volatile.acidity <= quantile(volatile.acidity, 0.90))) +
   geom_boxplot(aes(group = quality.level, color = quality.level)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
@@ -279,7 +364,8 @@ Excluding the outliers, wine quality may be negatively correalted with volatile.
 Let's see how alcohol level is related with quality. As seen the correlation matrix, alcohol is the highest correlated variable with quality.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(aes(x = quality.level, y = alcohol), data = subset(whiteWine, alcohol <= quantile(alcohol, 0.90))) +
+ggplot(aes(x = quality.level, y = alcohol), 
+       data = subset(whiteWine, alcohol <= quantile(alcohol, 0.90))) +
   geom_boxplot(aes(group = quality.level, color = quality.level)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
@@ -296,14 +382,17 @@ Now I want to investigate the relationship between quality and density. The corr
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(aes(x = quality.level, y = density), data = subset(whiteWine, density <= quantile(density, 0.90))) +
+ggplot(aes(x = quality.level, y = density), 
+       data = subset(whiteWine, density <= quantile(density, 0.90))) +
   geom_boxplot(aes(group = quality.level, color = quality.level)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-with(subset(whiteWine, density <= quantile(density, 0.99)), cor.test(quality, density))
+with(subset(whiteWine, 
+            density <= quantile(density, 0.99)), 
+     cor.test(quality, density))
 ```
 
 
@@ -317,7 +406,8 @@ Now let's see how the variables other than quality correlated with each other. I
 ggpairs(whiteWine,
         columns = 2:11,
         lower = list(continuous = "smooth"),
-        upper = list(combo = wrap("box", outlier.shape = I('.'))))
+        upper = list(combo = wrap("box", 
+                                  outlier.shape = I('.'))))
 ```
 
 
@@ -348,10 +438,12 @@ In the bivariete analysis, it is observed that the highest correlated variable w
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(aes(x = residual.sugar, y = density), data = subset(whiteWine, residual.sugar <= quantile(residual.sugar, 0.99))) +
+ggplot(aes(x = residual.sugar, y = density), 
+       data = subset(whiteWine, residual.sugar <= quantile(residual.sugar, 0.99))) +
           geom_point(aes(color = alcohol)) +    
           geom_smooth() +
-          theme(axis.text.x = element_text(angle = 90, hjust = 1))
+          theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+  
           
 ```
 
@@ -361,9 +453,15 @@ For the same density, when the residual suger increases, the alcohol content is 
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(aes(x = total.sulfur.dioxide, y = free.sulfur.dioxide), data = subset(whiteWine, free.sulfur.dioxide <= quantile(total.sulfur.dioxide, 0.90))) +
-          geom_point(aes(group = quality.level, color = quality.level)) +    
-          geom_smooth() 
+ggplot(aes(x = total.sulfur.dioxide, y = free.sulfur.dioxide), 
+       data = subset(whiteWine, free.sulfur.dioxide <= quantile(total.sulfur.dioxide, 0.90))) +
+          geom_point(aes(group = quality, color = quality) ) +
+          geom_smooth() +
+          scale_colour_gradient(low = "red",high = "green") +
+          xlab("Total Sulfur Dioxide (mg / dm^3)") +
+          ylab("Free Sulfur Dioxide (mg / dm^3)") + 
+          theme(plot.title=element_text(size=20, vjust=0)) +
+          labs(title = "Effect of Free Sufur Dioxidies Rate on Quality ")  
 ```
 
 I assume that every white wine contains sulfur dioxide. There are different types of sulfur dioxides in wine. In the dataset, free sulfur dioxidies and the total sulfur dioxidies are present. If we want to investigate the impact of free sulfur dioxides on quality of wine among other dioxides, we can analyse three variables  "total.sulfur.dioxide", "free.sulfur.dioxide" and "quality" variables together. As seen in the plot above, for a certain amount of sulfur dioxides, high quality wines contains more free sulfur dioxides with respect to bad ones.
@@ -388,7 +486,8 @@ Sulfur dioxides was not seem to be related much with the quality of wine. Howeve
 ### Plot One
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(aes(x = quality.level, y = alcohol), data = subset(whiteWine, alcohol <= quantile(alcohol, 0.80))) +
+ggplot(aes(x = quality.level, y = alcohol), 
+       data = subset(whiteWine, alcohol <= quantile(alcohol, 0.80))) +
   geom_boxplot(aes( color = quality.level)) +
   theme(axis.text.x = element_text(angle = 0)) +
   xlab("Level of Quality") +
@@ -405,20 +504,26 @@ This plot shows that alcohol content percantage is higher in good wines with res
 ### Plot Two
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height = 10, fig.width = 15}
-p1 <- ggplot(aes(x = residual.sugar, y = density), data = subset(whiteWine, residual.sugar <= quantile(residual.sugar, 0.99))) +
+p1 <- ggplot(aes(x = residual.sugar, y = density), 
+             data = subset(whiteWine, 
+                           residual.sugar <= quantile(residual.sugar, 0.99))) +
           geom_point(aes(color = alcohol)) +    
           geom_smooth() +
           theme(axis.text.x = element_text(angle = 0)) +
           xlab("Residual Sugar (g / cm^3)") +
           ylab("Density (g / cm^3)") + 
-          theme(plot.title=element_text(size=24, vjust=0), axis.title=element_text(size=18)) +
-          labs(title = "Relation of Density and Residual Sugar in Alcohol Percantage & Quality Level ", color = "Alcohol %")  
-p2 <- ggplot(aes(x = residual.sugar, y = density), data = subset(whiteWine, residual.sugar <= quantile(residual.sugar, 0.99))) +
+          theme(plot.title=element_text(size=24, vjust=0), 
+                axis.title=element_text(size=18)) +
+          labs(title = "Relation of Density and Residual Sugar in Alcohol Percantage & Quality Level ", 
+               color = "Alcohol %")  
+p2 <- ggplot(aes(x = residual.sugar, y = density), 
+             data = subset(whiteWine, residual.sugar <= quantile(residual.sugar, 0.99))) +
   geom_point() +  
   geom_smooth() +
   xlab("Residual Sugar (g / cm^3)") +
   ylab("Density (g / cm^3)") + 
-  theme(plot.title=element_text(size=24, vjust=0), axis.title=element_text(size=18), strip.text = element_text(size=18)) +
+  theme(plot.title=element_text(size=24, vjust=0), 
+        axis.title=element_text(size=18), strip.text = element_text(size=18)) +
   facet_wrap(~quality.level, scales="free")
 grid.arrange(p1,p2)
           
@@ -431,9 +536,11 @@ This plot clearly shows that density and residual sugar have affect on alcohol l
 ### Plot Three
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(aes(x = total.sulfur.dioxide, y = free.sulfur.dioxide), data = subset(whiteWine, free.sulfur.dioxide <= quantile(total.sulfur.dioxide, 0.90))) +
-          geom_point(aes(group = quality.level, color = quality.level)) +    
+ggplot(aes(x = total.sulfur.dioxide, y = free.sulfur.dioxide), 
+       data = subset(whiteWine, free.sulfur.dioxide <= quantile(total.sulfur.dioxide, 0.90))) +
+          geom_point(aes(group = quality, color = quality) ) +
           geom_smooth() +
+          scale_colour_gradient(low = "red",high = "green") +
           xlab("Total Sulfur Dioxide (mg / dm^3)") +
           ylab("Free Sulfur Dioxide (mg / dm^3)") + 
           theme(plot.title=element_text(size=20, vjust=0)) +
@@ -453,6 +560,10 @@ First of all, I investigate the distributon of the variables in the dataset. Bas
 In bivariate analysis section, I have explore the correlation between quality and the other variables in order to see the effect of the variables on quality of wine. Although there is no strong correlation between quality and other variables, the highest correlation was the alcohol level of the wine. Other than the quality, the most correlated variables were residual sugar and density, which I have investigated deeper in multivariate analysis section.
 
 In multivariate analysis section, the relation between residual sugar, density and alcohol was very interesting. Those variables are related with each other (which was explained in detail). Residual sugar and density has affect on the alcohol directly and quality indirectly.
+
+The toughest struggle I have faced was creating plots to reflect the relationsships between a ordered factor and continious variables. Moreover, the correlations were not clear between variables. However, in each section I have analyzed the variables their relations and come up with an idea about the effect of those variables on quality. 
+
+
 
 
 
