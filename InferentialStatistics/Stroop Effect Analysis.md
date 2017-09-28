@@ -18,11 +18,18 @@ The independent variable in this experiment is the conditions being Congruent or
 
 #### Hypothesis
 
+Those hypothesis are about the population. So that we need to test if the population means are different (statistically).
+
 The Null Hypothesis, H0: Time to name colours is the same for congruent and incongruent tasks
 
 The Alternative Hypothesis, HA: Time to name colours is not the same for congruent and incongruent tasks
 
-Those hypothesis are about the population. So that we need to test if the population means are different (statistically).
+
+H0: μ = μ0
+
+H1: μ ≠ μ
+
+
 
 
 #### Testing
