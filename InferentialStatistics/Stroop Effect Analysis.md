@@ -11,18 +11,23 @@ In a Stroop task, participants are presented with a list of words, with each wor
 
 ### 1. What is our independent variable? What is our dependent variable?
 
-The independent data in this experiment result is the word printed with ink and the dependent data is the time it takes for a participant to name the ink color of those words.
+The independent variable in this experiment is the conditions being Congruent or Incongruent. The dependent variable is the time it takes for a participant to name the ink color of those words.
 
 
 ### 2. What is an appropriate set of hypotheses for this task? What kind of statistical test do you expect to perform? Justify your choices.
 
 #### Hypothesis
 
-The Null hypothesis in this task is : The color/word mismatch does not affect the time it takes to name the color of word. The Alternate hypothesis in this task is : The color/word mismatch increases the time it takes for a participant to name the color of word.
+The Null Hypothesis, H0: Time to name colours is the same for congruent and incongruent tasks
+
+The Alternative Hypothesis, HA: Time to name colours is not the same for congruent and incongruent tasks
+
+Those hypothesis are about the population. So that we need to test if the population means are different (statistically).
+
 
 #### Testing
 
-According to these hypothesis, the statistical test to be applied shall tell us whether the sample mean of congruent observations and the sample mean of incongruent observations are statistically different or not. Therefore, in order to test the hypothesis paired t-test would be a good choice since we have two different measurements on the same items which is each participant answered both incongruent and congruent tests so that the samples in this data is dependent. 
+In order to test the hypothesis paired t-test would be a good choice since we have two different measurements on the same items which is each participant answered both incongruent and congruent tests so that the samples in this data is dependent. Moreover, the sample dataset does not include much data (< 30) and (according to the visualisations) the distribution is normal which make t-test is appropriate for testing.
 
 
 ### 3. Report some descriptive statistics regarding this dataset. Include at least one measure of central tendency and at least one measure of variability.
