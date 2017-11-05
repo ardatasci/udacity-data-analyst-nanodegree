@@ -11760,7 +11760,7 @@ div#notebook {
 <li>Outliers were detected and removed from dataset,</li>
 <li>Features were selected based on the result of analysis in SelectKBest for classification (f_classif),</li>
 <li>New features were added to improve performance,</li>
-<li>NaiveBayes, RandomForest and AdaBoost classifiers were tried with different parameters and best classification method was chosen.</li>
+<li>NaiveBayes, RandomForest and DecisionTree classifiers were tried with different parameters and best classification method was chosen.</li>
 </ul>
 
 </div>
@@ -15501,7 +15501,7 @@ recall 0.2
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Parameter-Tuning">Parameter Tuning<a class="anchor-link" href="#Parameter-Tuning">&#182;</a></h3><p>NaiveBayes results lower than Random Forest and AdaBoost models. Therefore, parameter tuninig is applied for Random Forest and Ada Boost models.</p>
+<h3 id="Parameter-Tuning">Parameter Tuning<a class="anchor-link" href="#Parameter-Tuning">&#182;</a></h3><p>NaiveBayes results lower than Random Forest and DecisionTree models. Therefore, parameter tuninig is applied for Random Forest and Decision Tree models.</p>
 <p>For random forest, criterion, min_samples_leaf, max_features and max_depth parameters were tried using grid search. Best results were seen in below parameter options:</p>
 <p>{'max_features': 2, 'min_samples_split': 4, 'criterion': 'entropy', 'max_depth': 5, 'min_samples_leaf': 1}</p>
 
