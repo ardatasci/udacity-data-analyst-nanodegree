@@ -15,18 +15,15 @@ import pandas as pd
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
 
-### NOTE: To see how I choose those features, please see enron_data_investigate.html
+### NOTE: To see how I choose and engineer  those features, please see enron_data_investigate.html
 features_list = ['poi',
-                 'salary', 
                  'to_messages', 
                  'exercised_stock_options', 
                  'bonus', 
                  'restricted_stock', 
                  'shared_receipt_with_poi', 
-                 'total_stock_value', 
-                 'from_this_person_to_poi', 
-                 'deferred_income', 
-                 'from_poi_to_this_person'] 
+                 'to_message_poi_ratio']
+
 
 ### Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
@@ -36,8 +33,9 @@ df = pd.DataFrame.from_dict(data_dict, orient='index')
 
 
 ### Task 2: Remove outliers
-### NOTE: To see how I found TOTAL as outlier and mailing features, please see enron_data_investigate.html
+### NOTE: To see how I found TOTAL as outlier and mailing features, moreover LOCKHART EUGENE E was dropped since all the fields were NaN, please see enron_data_investigate.html 
 df = df.drop('TOTAL')
+df = df.drop('LOCKHART EUGENE E')
 df = df[df.to_messages < 6000]
 df = df[df.from_messages < 1000]
 
@@ -60,23 +58,21 @@ df['to_message_poi_ratio'] = df['from_this_person_to_poi'] / df['to_messages']
 df['from_message_poi_ratio'] = df['from_poi_to_this_person'] / df['from_messages']
 df['message_in_out_ratio'] = df['from_messages'] / df['to_messages']
 
-engineered_features = features_list + ['from_message_poi_ratio', 'message_in_out_ratio', 'to_message_poi_ratio']
-dropped_features = ['from_this_person_to_poi', 'from_poi_to_this_person', 'to_messages']
+engineered_features = list(df)
 
 
-def created_engineered_dataframe(engineered_f, dropped_f, data_frame):
+
+
+def created_engineered_dataframe(engineered_f, data_frame):
     X_engineered = df[engineered_features]
-    X_engineered = X_engineered.drop(dropped_features, axis=1)
     return X_engineered
 
-X = created_engineered_dataframe(engineered_features, dropped_features, df)
+X = created_engineered_dataframe(engineered_features, df)
 y = df.poi
 
 
 my_dataset = X.to_dict('index')
 
-
-features_list = X.columns.values
 
 
 ### Extract features and labels from dataset for local testing
@@ -106,10 +102,10 @@ clf = DecisionTreeClassifier(random_state=42)
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
 
 
-### NOTE: Finally I have chosen RandomForest with parameters {'max_features': 2, 'criterion': 'gini', 'max_depth': 5, 'min_samples_leaf': 1}, please see enron_data_investigate.html for details.
+### NOTE: Finally I have chosen DecisionTree with parameters {'criterion': 'entropy', 'max_depth': 7, 'min_samples_leaf': 1}, please see enron_data_investigate.html for details.
 
 DT_best_tune = {'criterion': 'entropy', 
-                'max_depth': 5, 
+                'max_depth': 7, 
                 'min_samples_leaf': 1}
 clf.set_params(**DT_best_tune)
 
