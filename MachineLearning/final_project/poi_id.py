@@ -15,7 +15,7 @@ import pandas as pd
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
 
-### NOTE: To see how I choose and engineer  those features, please see enron_data_investigate.html
+### NOTE: feature_list is a list of selected features the selection process is defined in detail, please see enron_data_investigate.html. Data selection process was not reflected in poi_id.py, since it is a preliminary process.
 features_list = ['poi',
                  'to_messages', 
                  'exercised_stock_options', 
@@ -33,14 +33,14 @@ df = pd.DataFrame.from_dict(data_dict, orient='index')
 
 
 ### Task 2: Remove outliers
-### NOTE: To see how I found TOTAL as outlier and mailing features, moreover LOCKHART EUGENE E was dropped since all the fields were NaN, please see enron_data_investigate.html 
+### NOTE: To see how I found TOTAL as outlier and mailing features, moreover LOCKHART EUGENE E was dropped since all the fields were NaN, high number of to_messages and from_messages were accepted as outliers and dropped from dataset, for details please see enron_data_investigate.html 
 df = df.drop('TOTAL')
 df = df.drop('LOCKHART EUGENE E')
 df = df[df.to_messages < 6000]
 df = df[df.from_messages < 1000]
 
 
-### NOTE: There are NaN values which need to be zeros (if financial features) and dataset median (if mailing features). please see enron_data_investigate.html
+### NOTE: There are NaN values which need to be zeros (if financial features) and feature median (if mailing features). please see enron_data_investigate.html
 df = df.replace('NaN', np.nan)
 
 financial_features = ['salary', 'deferral_payments', 'total_payments', 'loan_advances', 'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 'restricted_stock', 'director_fees']
@@ -59,8 +59,6 @@ df['from_message_poi_ratio'] = df['from_poi_to_this_person'] / df['from_messages
 df['message_in_out_ratio'] = df['from_messages'] / df['to_messages']
 
 engineered_features = list(df)
-
-
 
 
 def created_engineered_dataframe(engineered_f, data_frame):
